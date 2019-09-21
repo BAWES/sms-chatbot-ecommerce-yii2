@@ -5,4 +5,10 @@ return [
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
     'user.passwordResetTokenExpire' => 3600,
+    'allowedOrigins' => [
+        //'https://employer.dev.pogi.io/',
+        //Dev Envs
+        null,
+        '*' //remove this once app is live
+    ]
 ];
