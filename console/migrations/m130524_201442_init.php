@@ -68,6 +68,19 @@ class m130524_201442_init extends Migration
             'user',
             'phone'
         );
+
+
+        // Insert the first Admin user:
+        $admin = new \common\models\Admin;
+        $admin->id = 1;
+        $admin->username = 'khalid';
+        $admin->auth_key = 'SrEuDIU8DUid76yy8pUbMWpHagdBjLli';
+        $admin->password_hash = '$2y$13$lDdlmosqEp.H.T586I2GEuW.bhTBsKI1c.5nEnRrF9LC8ODMVk7yq';
+        $admin->email = "khalid@bawes.net";
+        $admin->status = 10;
+        $admin->created_at = "1569084609";
+        $admin->updated_at = "1569084609";
+        $admin->save(false);
     }
 
     public function down()
