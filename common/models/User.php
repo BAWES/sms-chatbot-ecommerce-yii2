@@ -97,4 +97,12 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->getAuthKey() === $authKey;
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSms()
+    {
+        return $this->hasOne(Sms::className(), ['user_phone' => 'phone']);
+    }
+
 }

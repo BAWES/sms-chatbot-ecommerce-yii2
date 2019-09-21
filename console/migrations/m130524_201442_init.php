@@ -55,6 +55,7 @@ class m130524_201442_init extends Migration
             'created_at' => $this->dateTime()->notNull(),
             'updated_at' => $this->dateTime()->notNull()
         ], $tableOptions);
+        $this->addPrimaryKey('PK', 'sms', 'uuid');
         $this->createIndex(
             'idx-sms-user_phone',
             'sms',
@@ -72,14 +73,15 @@ class m130524_201442_init extends Migration
     public function down()
     {
         $this->dropForeignKey(
-            'fk-sms-investor_id',
+            'fk-sms-user_phone',
             'sms'
         );
         $this->dropIndex(
-            'idx-sms-investor_id',
+            'idx-sms-user_phone',
             'sms'
         );
         $this->dropTable('{{%sms}}');
         $this->dropTable('{{%user}}');
+        $this->dropTable('{{%admin}}');
     }
 }
