@@ -13,17 +13,18 @@ class m130524_201442_init extends Migration
         }
 
         $this->createTable('{{%user}}', [
-            'id' => $this->primaryKey(),
-            'username' => $this->string()->notNull()->unique(),
+            'phone' => $this->string()->unique()->notNull(), // Primary key
+
+            'name' => $this->string(),
+            'email' => $this->string()->unique(),
             'auth_key' => $this->string(32)->notNull(),
-            'password_hash' => $this->string()->notNull(),
-            'password_reset_token' => $this->string()->unique(),
-            'email' => $this->string()->notNull()->unique(),
 
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
+            'created_at' => $this->dateTime()->notNull(),
+            'updated_at' => $this->dateTime()->notNull(),
         ], $tableOptions);
+
+        $this->addPrimaryKey('PK', 'user', 'phone');
     }
 
     public function down()
