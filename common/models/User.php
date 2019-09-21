@@ -43,7 +43,7 @@ class User extends ActiveRecord implements IdentityInterface
             'createdAtAttribute' => 'created_at',
             'updatedAtAttribute' => 'updated_at',
             'value' => new Expression('NOW()'),
-        ],
+        ];
     }
 
     /**
