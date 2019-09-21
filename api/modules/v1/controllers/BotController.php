@@ -52,7 +52,7 @@ class BotController extends Controller
     }
 
 
-    public function actionChangePassword()
+    public function actionTest()
     {
         $oldPassword = Yii::$app->request->getBodyParam("old_password");
         $newPassword = Yii::$app->request->getBodyParam("new_password");

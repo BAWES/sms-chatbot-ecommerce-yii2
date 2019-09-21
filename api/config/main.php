@@ -40,10 +40,10 @@ return [
             'rules' => [
                 [ // AccountController
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'v1/account',
+                    'controller' => 'v1/bot',
                     'pluralize' => false,
                     'patterns' => [
-                        'GET salary' => 'salary',
+                        'GET' => 'test',
                         'GET employer' => 'employer',
                         'POST change-password' => 'change-password',
                         // OPTIONS VERBS
