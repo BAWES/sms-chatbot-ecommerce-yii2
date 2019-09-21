@@ -41,10 +41,45 @@ class m130524_201442_init extends Migration
         ], $tableOptions);
 
         $this->addPrimaryKey('PK', 'user', 'phone');
+
+        // SMS Messages
+        $this->createTable('{{%sms}}', [
+            'uuid' => $this->char(36),
+            'user_phone' => $this->string()->unique(), // relation
+
+            'sender' => $this->smallInteger(), // Who sent the text? Us or them?
+            'body' => $this->text(),
+
+            'status' => $this->smallInteger(), // Has this been sent already? or in queue?
+
+            'created_at' => $this->dateTime()->notNull(),
+            'updated_at' => $this->dateTime()->notNull()
+        ], $tableOptions);
+        $this->createIndex(
+            'idx-sms-user_phone',
+            'sms',
+            'user_phone'
+        );
+        $this->addForeignKey(
+            'fk-sms-user_phone',
+            'sms',
+            'user_phone',
+            'user',
+            'phone'
+        );
     }
 
     public function down()
     {
+        $this->dropForeignKey(
+            'fk-sms-investor_id',
+            'sms'
+        );
+        $this->dropIndex(
+            'idx-sms-investor_id',
+            'sms'
+        );
+        $this->dropTable('{{%sms}}');
         $this->dropTable('{{%user}}');
     }
 }
