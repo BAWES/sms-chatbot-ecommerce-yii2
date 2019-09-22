@@ -86,7 +86,7 @@ class SmsController extends Controller
         }else if(strtolower($sms->body) == 'no'){
             $user->sendMessageFromBot("That's alright. This bot will find love elsewhere.");
         }else{
-            $user->sendMessageFromBot("Hello, this is your friendly bot responding. Do you love me? Respond with 'yes' or 'no'.");
+            $user->sendMessageFromBot("Hello, this is your friendly bot responding. Do you love me? Respond with the word 'yes' or 'no'.");
         }
 
         return [
