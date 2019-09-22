@@ -8,7 +8,7 @@ return [
     'allowedOrigins' => [
         //'https://employer.dev.pogi.io/',
         //Dev Envs
-        null,
+        // null,
         '*' //remove this once app is live
     ]
 ];
