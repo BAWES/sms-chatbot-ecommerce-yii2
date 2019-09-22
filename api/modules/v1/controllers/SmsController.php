@@ -5,11 +5,13 @@ namespace api\modules\v1\controllers;
 use Yii;
 use yii\rest\Controller;
 use yii\filters\Cors;
+use common\models\User;
+use common\models\Sms;
 
 /**
- * Base Bot Controller
+ * Base SMS Controller
  */
-class BotController extends Controller
+class SmsController extends Controller
 {
     public function behaviors()
     {
@@ -52,14 +54,35 @@ class BotController extends Controller
     }
 
 
-    public function actionTest()
+    /**
+     * Called when sms is received
+     */
+    public function actionReceive()
     {
-        $oldPassword = Yii::$app->request->getBodyParam("old_password");
-        $newPassword = Yii::$app->request->getBodyParam("new_password");
+        $phone = Yii::$app->request->getBodyParam("phone");
+        $message = Yii::$app->request->getBodyParam("message");
+
+        // Check if phone exists, otherwise create account for him.
+        $user = User::find()->where(['phone' => $phone])->one();
+        if(!$user){
+            $user = new User;
+            $user->phone = $phone;
+            $user->auth_key = "temp";
+            $user->save();
+        }
+
+        // Once that is done, we need to add sms to user record
+        if($user){
+            $sms = new Sms;
+            $sms->user_phone = $phone;
+            $sms->sender = Sms::SENDER_USER;
+            $sms->body = $message;
+            $sms->save();
+        }
 
         return [
-            "operation" => "error",
-            "message" => "Empty old password"
+            "operation" => "done",
+            "errors" => print_r($sms->errors, true)
         ];
     }
 }

@@ -48,10 +48,6 @@ class Sms extends \yii\db\ActiveRecord
 
             ['status', 'default', 'value' => self::STATUS_SENT],
             ['status', 'in', 'range' => [self::STATUS_UNSENT, self::STATUS_SENT]],
-
-            [['user_phone'], 'string', 'max' => 255],
-            [['user_phone'], 'unique'],
-            [['user_phone'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_phone' => 'phone']],
         ];
     }
 

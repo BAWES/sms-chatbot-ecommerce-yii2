@@ -44,19 +44,19 @@ return [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                [ // AccountController
+                [ // SmsController
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'v1/bot',
+                    'controller' => 'v1/sms',
                     'pluralize' => false,
                     'patterns' => [
-                        'GET' => 'test',
-                        'GET employer' => 'employer',
-                        'POST change-password' => 'change-password',
+                        'POST' => 'receive',
+                        // 'GET employer' => 'employer',
+                        // 'POST change-password' => 'change-password',
                         // OPTIONS VERBS
                         'OPTIONS' => 'options',
-                        'OPTIONS salary' => 'options',
-                        'OPTIONS employer' => 'options',
-                        'OPTIONS change-password' => 'options'
+                        // 'OPTIONS salary' => 'options',
+                        // 'OPTIONS employer' => 'options',
+                        // 'OPTIONS change-password' => 'options'
                     ]
                 ],
             ],

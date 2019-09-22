@@ -44,8 +44,8 @@ class m130524_201442_init extends Migration
 
         // SMS Messages
         $this->createTable('{{%sms}}', [
-            'uuid' => $this->char(36),
-            'user_phone' => $this->string()->unique(), // relation
+            'uuid' => $this->char(40),
+            'user_phone' => $this->string(), // relation
 
             'sender' => $this->smallInteger(), // Who sent the text? Us or them?
             'body' => $this->text(),
