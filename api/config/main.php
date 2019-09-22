@@ -50,11 +50,10 @@ return [
                     'pluralize' => false,
                     'patterns' => [
                         'POST' => 'receive',
-                        // 'GET employer' => 'employer',
-                        // 'POST change-password' => 'change-password',
+                        'POST poll' => 'poll-for-message-to-send',
                         // OPTIONS VERBS
                         'OPTIONS' => 'options',
-                        // 'OPTIONS salary' => 'options',
+                        'OPTIONS poll' => 'options',
                         // 'OPTIONS employer' => 'options',
                         // 'OPTIONS change-password' => 'options'
                     ]

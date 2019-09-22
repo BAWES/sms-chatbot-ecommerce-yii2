@@ -80,9 +80,50 @@ class SmsController extends Controller
             $sms->save();
         }
 
+        // Send a message back from Bot
+        if($sms->body == 'yes'){
+            $user->sendMessageFromBot("Aww. I think I like you too.");
+        }else if($sms->body == 'no'){
+            $user->sendMessageFromBot("That's alright. This bot will find love elsewhere.");
+        }else{
+            $user->sendMessageFromBot("Hello, this is your friendly bot responding. Do you love me? Respond with 'yes' or 'no'.");
+        }
+
         return [
-            "operation" => "done",
-            "errors" => print_r($sms->errors, true)
+            "operation" => "Message Stored"
         ];
     }
+
+
+    /**
+     * Called to poll for a single message that is required to be
+     * sent by chatbot. That message will be marked as sent as soon as polled
+     */
+    public function actionPollForMessageToSend()
+    {
+        $messageToSend = Sms::find()
+                            ->where([
+                                'status' => Sms::STATUS_UNSENT,
+                                'sender' => Sms::SENDER_BOT
+                            ])
+                            ->orderBy('created_at DESC')
+                            ->limit(1)
+                            ->one();
+
+        // If no messages to send
+        if(!$messageToSend){
+            return false;
+        }
+
+        // Mark message as sent
+        $messageToSend->status = Sms::STATUS_SENT;
+        $messageToSend->save(false);
+
+        return [
+            "phone" => $messageToSend->user_phone,
+            "message" => $messageToSend->body
+        ];
+    }
+
+
 }

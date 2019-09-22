@@ -117,6 +117,19 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * [sendMessage description]
+     * @param  string $message [description]
+     */
+    public function sendMessageFromBot($message){
+        $sms = new Sms();
+        $sms->user_phone = $this->phone;
+        $sms->status = Sms::STATUS_UNSENT;
+        $sms->sender = Sms::SENDER_BOT;
+        $sms->body = $message;
+        $sms->save();
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getSms()
