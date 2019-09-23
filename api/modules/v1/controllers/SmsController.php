@@ -63,7 +63,7 @@ class SmsController extends Controller
         $message = Yii::$app->request->getBodyParam("message");
 
         // Validate that phone number is really phone number, not adv or automated sms
-        if(!preg_match('/^\+?\d+$/'3, $phone)){
+        if(!preg_match('/^\+?\d+$/', $phone)){
             return [
                 "operation" => "Invalid phone number disregarded"
             ];
@@ -75,6 +75,10 @@ class SmsController extends Controller
             $user = new User;
             $user->phone = $phone;
             $user->auth_key = "temp";
+
+            // Detect received message language to set lang pref
+            $user->language_preferred = Sms::getLanguageUsed($message) == "arabic" ? "ar" : "en";
+
             $user->save();
         }
 
@@ -87,7 +91,14 @@ class SmsController extends Controller
             $sms->save();
         }
 
-        // Send a message back from Bot
+        /**
+         * Start Processing Response from Bot
+         */
+
+        // If User is NEW (first time) -> Detect received message language + Send welcome message in detected lang + Give Instructions to Change Language
+
+         // TODO: Check that response CONTAINS string rather than exact match
+
         if(strtolower($sms->body) == 'yes'){
             $user->sendMessageFromBot("Aww. I think I like you too.");
         }else if(strtolower($sms->body) == 'no'){
@@ -95,6 +106,10 @@ class SmsController extends Controller
         }else{
             $user->sendMessageFromBot("Hello, this is your friendly bot responding. Do you love me? Respond with the word 'yes' or 'no'.");
         }
+
+        /**
+         * End of response processing
+         */
 
         return [
             "operation" => "Message Stored"

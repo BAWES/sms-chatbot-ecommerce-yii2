@@ -16,6 +16,7 @@ use yii\db\Expression;
  * @property string $email
  * @property string $auth_key
  * @property integer $status
+ * @property integer $language_preferred
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -85,6 +86,7 @@ class User extends ActiveRecord implements IdentityInterface
             'email' => 'Email',
             'auth_key' => 'Key',
             'status' => 'Status',
+            'language_preferred' => 'Language Preferred',
             'created_at' => 'Created At',
             'updated_at' => 'Last Activity',
         ];

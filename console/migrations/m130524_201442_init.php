@@ -36,6 +36,7 @@ class m130524_201442_init extends Migration
             'auth_key' => $this->string(32)->notNull(),
 
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
+            'language_preferred' => $this->string()->notNull()->defaultValue("en"),
             'created_at' => $this->dateTime()->notNull(),
             'updated_at' => $this->dateTime()->notNull(),
         ], $tableOptions);

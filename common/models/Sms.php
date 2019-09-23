@@ -100,4 +100,15 @@ class Sms extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['phone' => 'user_phone']);
     }
+
+    /**
+     * Takes str and returns whether its arabic or English
+     * @param  string $str
+     * @return string      "arabic" or "english"
+     */
+    public static function getLanguageUsed($str){
+        if (preg_match('/[اأإء-ي]/ui', $str)) {
+            return "arabic";
+        }else return "english";
+    }
 }
