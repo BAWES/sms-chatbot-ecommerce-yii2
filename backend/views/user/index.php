@@ -28,13 +28,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'phone',
             'name',
-            'email:email',
-            'auth_key',
-            'status',
+            // 'email:email',
+            // 'auth_key',
+            // 'status',
+            'statusText',
+            // [
+            //         'label' => 'Status',
+            //         'value' => $model->statusText,
+            // ],
             //'created_at',
-            //'updated_at',
+            'updated_at:datetime',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],
         ],
     ]); ?>
 

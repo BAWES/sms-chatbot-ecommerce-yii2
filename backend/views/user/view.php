@@ -32,11 +32,34 @@ $this->params['breadcrumbs'][] = $this->title;
             'phone',
             'name',
             'email:email',
-            'auth_key',
-            'status',
-            'created_at',
-            'updated_at',
+            // 'auth_key',
+            'statusText',
+            // 'status',
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
+
+    <!-- 'uuid',
+    'user_phone',
+    'sender',
+    'body:ntext',
+    'status',
+    'created_at',
+    'updated_at', -->
+
+    <h1>Message History</h1>
+
+
+
+    <?php foreach($model->sms as $sms){
+        $senderUser = ($sms->sender == \common\models\Sms::SENDER_USER);
+        ?>
+        <div style='padding: 20px; padding-top:12px; margin: 3px; background: <?= $senderUser? 'lightblue' : 'lightpink' ?>;'>
+            <span style='font-size: 1.1em;'><?= $sms->body ?></span>
+
+            <div style='margin-top:10px; margin-bottom: -10px; font-size:0.8em;'><?= Yii::$app->formatter->asDatetime($sms->created_at) ?></div>
+        </div>
+    <?php } ?>
 
 </div>

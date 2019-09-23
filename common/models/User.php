@@ -60,19 +60,33 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function getStatusText(){
+        switch($this->status){
+            case User::STATUS_DELETED:
+                return "Deleted";
+                break;
+            case User::STATUS_INACTIVE:
+                return "Inactive";
+                break;
+            case User::STATUS_ACTIVE:
+                return "Active";
+                break;
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
     public function attributeLabels()
     {
         return [
-            'phone' => 'phone/Uuid',
-            'name' => 'name',
-            'email' => 'email',
-            'auth_key' => 'key',
+            'phone' => 'Phone',
+            'name' => 'Name',
+            'email' => 'Email',
+            'auth_key' => 'Key',
             'status' => 'Status',
             'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'updated_at' => 'Last Activity',
         ];
     }
 
@@ -134,7 +148,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getSms()
     {
-        return $this->hasOne(Sms::className(), ['user_phone' => 'phone']);
+        return $this->hasMany(Sms::className(), ['user_phone' => 'phone']);
     }
 
 }
