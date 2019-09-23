@@ -62,6 +62,11 @@ class SmsController extends Controller
         $phone = Yii::$app->request->getBodyParam("phone");
         $message = Yii::$app->request->getBodyParam("message");
 
+        // Validate that phone number is really phone number, not adv or automated sms
+        if(!preg_match('/^\+?\d+$/', $phone)){
+            return "Invalid phone num";
+        }
+
         // Check if phone exists, otherwise create account for him.
         $user = User::find()->where(['phone' => $phone])->one();
         if(!$user){
