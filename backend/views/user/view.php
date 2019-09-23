@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'email:email',
             // 'auth_key',
             'statusText',
+            'language_preferred',
             // 'status',
             'created_at:datetime',
             'updated_at:datetime',
