@@ -186,32 +186,53 @@ class SmsController extends Controller
 
 
             /**
-             * Get Payment Link
+             * TAP Payment Link
              */
              // Redirect to payment gateway
-             $response = Yii::$app->tapPayments->createCharge(
-                 "$quantityRequested Hugs from Khalid Bot", // Description
-                 "Hugs", //Statement Desc.
-                 rand(1, 9999999), // Reference
-                 $totalPrice,
-                 "You",
-                 "test@test.com",
-                 "99999999",
-                 \yii\helpers\Url::to(['payment/callback'], true),
-                 \api\components\TapPayments::GATEWAY_KNET
-             );
+             // $response = Yii::$app->tapPayments->createCharge(
+             //     "$quantityRequested Hugs from Khalid Bot", // Description
+             //     "Hugs", //Statement Desc.
+             //     rand(1, 9999999), // Reference
+             //     $totalPrice,
+             //     "You",
+             //     "test@test.com",
+             //     "99999999",
+             //     \yii\helpers\Url::to(['payment/callback'], true),
+             //     \api\components\TapPayments::GATEWAY_KNET
+             // );
+             //
+             // $responseContent = json_decode($response->content);
+             //
+             // // Validate that theres no error from TAP gateway
+             // if(isset($responseContent->errors)) {
+             //     $errorMessage = "Error: ".$responseContent->errors[0]->code. " - ". $responseContent->errors[0]->description;
+             //     \Yii::error($errorMessage, __METHOD__); // Log error faced by user
+             //     return $errorMessage;
+             // }
+             //
+             // $chargeId = $responseContent->id;
+             // $redirectUrl = $responseContent->transaction->url;
 
-             $responseContent = json_decode($response->content);
 
-             // Validate that theres no error from TAP gateway
-             if(isset($responseContent->errors)) {
-                 $errorMessage = "Error: ".$responseContent->errors[0]->code. " - ". $responseContent->errors[0]->description;
-                 \Yii::error($errorMessage, __METHOD__); // Log error faced by user
-                 return $errorMessage;
-             }
+             /**
+              * MyFatoorah Payment Link
+              */
+             // $merchantCode = "[Your merchant code here]";
+             // $username = "[Your merchant username here]";
+             // $password = "[Your merchant password here]";
+             $my = \bawes\myfatoorah\MyFatoorah::test();
 
-             $chargeId = $responseContent->id;
-             $redirectUrl = $responseContent->transaction->url;
+             $resp = $my->setPaymentMode(\bawes\myfatoorah\MyFatoorah::GATEWAY_ALL)
+             ->setReturnUrl("https://google.com")
+             ->setErrorReturnUrl("https://google.com")
+             ->setCustomer("Khalid", "customer@email.com", "97738271")
+             ->setReferenceId() //Pass unique order number or leave empty to use time()
+             ->addProduct("Hug", $productPrice, $quantityRequested)
+             ->getPaymentLinkAndReference();
+
+             $redirectUrl = $resp['paymentUrl'];
+             $myfatoorahRefId = $resp['paymentRef']; //good idea to store this for later status checks
+
 
              // Bitly khalid@pogi.io acct Url Shorten: Password Kk5397359!
              // Authorization: Bearer {token}

@@ -4,8 +4,52 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d2c2511991a26ce121c039efeb84ab6c",
+    "content-hash": "3b1576ad085810d4e74b0ea103ba4a75",
     "packages": [
+        {
+            "name": "bawes/myfatoorah-php",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BAWES/myfatoorah-php.git",
+                "reference": "6f5ff19a76578b00a7a6db28674224bccfc775ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BAWES/myfatoorah-php/zipball/6f5ff19a76578b00a7a6db28674224bccfc775ba",
+                "reference": "6f5ff19a76578b00a7a6db28674224bccfc775ba",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "bawes\\myfatoorah\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Khalid Al-Mutawa",
+                    "email": "contact@bawes.net",
+                    "homepage": "http://bawes.net"
+                }
+            ],
+            "description": "MyFatoorah PHP Library",
+            "homepage": "https://myfatoorah.com/",
+            "keywords": [
+                "api",
+                "myfatoorah",
+                "payment processing"
+            ],
+            "time": "2018-11-01T09:37:58+00:00"
+        },
         {
             "name": "bower-asset/bootstrap",
             "version": "v3.4.1",
