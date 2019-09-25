@@ -33,5 +33,32 @@ class BotHelper
         return false;
     }
 
+    /**
+     * Check if user agrees with all variations of "Yes"
+     */
+    public function assertApproval($string)
+    {
+        return $this->checkStringForWords($string, [
+            "yes",
+            "ya",
+            "ye",
+            "yyes",
+            "yep",
+            "ofcourse",
+            "duh",
+            "why not"
+        ]);
+    }
+
+    /**
+     * Check if user rejects with all variations of "No"
+     */
+    public function assertRejection($string)
+    {
+        return $this->checkStringForWords($string, [
+            "no",
+        ]);
+    }
+
 
 }

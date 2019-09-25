@@ -103,9 +103,9 @@ class SmsController extends Controller
         // Send new welcome message whenever lang changed?
 
 
-        if(Yii::$app->botHelper->checkStringForWords($message, ["yes"])){
+        if(Yii::$app->botHelper->assertApproval($message)){
             $user->sendMessageFromBot("Aww. I think I like you too.");
-        }else if(Yii::$app->botHelper->checkStringForWords($message, ["no"])){
+        }else if(Yii::$app->botHelper->assertRejection($message)){
             $user->sendMessageFromBot("That's alright. This bot will find love elsewhere.");
         }else{
             $user->sendMessageFromBot("Hello, this is your friendly bot responding. Do you love me? Respond with the word 'yes' or 'no'.");
