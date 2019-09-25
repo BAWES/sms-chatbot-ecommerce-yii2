@@ -165,16 +165,28 @@ class SmsController extends Controller
         }
 
 
-        // TODO #1: Send an offer to buy something, asking user to respond with quantity (number)
-        // TODO #2: Check do calculation of number * price. Send total quote along with payment link [MyFatoorah?]
+
+
+        // TODO: Translate the following messages.
         // TODO #3: Store payment status / send receipts / etc. [After showing demo maybe?]
-        
-        if(Yii::$app->botHelper->assertApproval($message)){
-            return $user->sendMessageFromBot("Aww. I think I like you too.");
-        }else if(Yii::$app->botHelper->assertRejection($message)){
-            return $user->sendMessageFromBot("That's alright. This bot will find love elsewhere.");
+
+        $productPrice = 0.5;
+
+        if(is_numeric($message)){
+            // Check if sent message is or has a number, then parse and send message based on quantity sent.
+            // Send total quote along with TODO payment link [MyFatoorah?]
+            
+            $quantityRequested = (int) $message;
+            if($quantityRequested == 0){
+                return $user->sendMessageFromBot("Guess you don't want any hugs.");
+            }
+
+            $totalPrice = $productPrice * $quantityRequested;
+
+            return $user->sendMessageFromBot("That will be ". number_format($totalPrice, 3) . " KD for $quantityRequested hugs. Pay via [paylinkhere].");
         }else{
-            return $user->sendMessageFromBot("Hello, this is your friendly bot responding. Do you love me? Respond with the word 'yes' or 'no'.");
+            // #1: Send an offer to buy something, asking user to respond with quantity (number)
+            return $user->sendMessageFromBot("I'm giving out virtual hugs for ". number_format($productPrice, 3) ." KD each. Respond with the number of hugs you'd like.");
         }
 
         /**
