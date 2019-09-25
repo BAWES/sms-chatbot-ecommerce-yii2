@@ -76,6 +76,7 @@ class SmsController extends Controller
             $isNewUser = true;
             $user = new User;
             $user->phone = $phone;
+            $user->status = User::STATUS_ACTIVE;
             $user->auth_key = "temp";
 
             // Detect received message language to set lang pref
@@ -104,6 +105,40 @@ class SmsController extends Controller
         if($isNewUser){
             $msgEnglish = "This is Khalid's sales bot. Respond with 'unsubscribe' to stop receiving messages. ارسل 'عربي' لتغير اللغة ";
             $msgArabic = "أهلاً بك. أنا روبوت مبيعات صناعة خالد المطوع. يرجى الرد ب-'unsubscribe' لايقاف الخدمة. Send 'english' to change language";
+            return $user->sendMessageFromBot($user->language_preferred == "ar" ? $msgArabic : $msgEnglish);
+        }
+
+        // Check if user wants to "unsubscribe"
+        if(Yii::$app->botHelper->checkStringForWords($message, ["unsubscribe"])){
+            // If Active, make inactive
+            if($user->status == User::STATUS_ACTIVE){
+                $msgEnglish = "You have been unsubscribed. Send 'enable' to enable the service.";
+                $msgArabic = "تم الغاء الخدمة. أرسل". "'enable'" . "لتفعيل الخدمة";
+                $user->status = User::STATUS_INACTIVE;
+                $user->save(false);
+                return $user->sendMessageFromBot($user->language_preferred == "ar" ? $msgArabic : $msgEnglish);
+            }
+
+            // Else say that they're already inactive
+            $msgEnglish = "You are already unsubscribed. Send 'enable' to enable the service.";
+            $msgArabic = "تم الغاء الخدمة. أرسل". "'enable'" . "لتفعيل الخدمة";
+            return $user->sendMessageFromBot($user->language_preferred == "ar" ? $msgArabic : $msgEnglish);
+        }
+
+        // Check if user wants to re subscribe by sending "enable"
+        if(Yii::$app->botHelper->checkStringForWords($message, ["enable"])){
+            // If STATUS_INACTIVE, make active
+            if($user->status == User::STATUS_INACTIVE){
+                $msgEnglish = "Your account has been enabled.";
+                $msgArabic = "تم تفعيل حسابك";
+                $user->status = User::STATUS_ACTIVE;
+                $user->save(false);
+                return $user->sendMessageFromBot($user->language_preferred == "ar" ? $msgArabic : $msgEnglish);
+            }
+
+            // Else say that they're already active
+            $msgEnglish = "Your account is already active.";
+            $msgArabic = "حسابك فعال";
             return $user->sendMessageFromBot($user->language_preferred == "ar" ? $msgArabic : $msgEnglish);
         }
 
