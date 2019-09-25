@@ -99,14 +99,12 @@ class SmsController extends Controller
          // Convert Str to lowercase before testing for values
         $message = strtolower($sms->body);
 
-        // If User is NEW (first time) ->
-        // Send welcome message in detected lang
-        // + Give Instructions to Change Language
-
+        // If User is NEW (first time)
+        // Send welcome message + Give Instructions to Change Language / Unsubscribe
         if($isNewUser){
-            $msgEnglish = "Welcome to eCommerce bot. Respond with 'arabic' to change language.";
-            $msgArabic = "";
-            return $user->sendMessageFromBot($msgEnglish);
+            $msgEnglish = "This is Khalid's sales bot. Respond with 'unsubscribe' to stop receiving messages. ارسل 'عربي' لتغير اللغة ";
+            $msgArabic = "أهلاً بك. أنا روبوت مبيعات صناعة خالد المطوع. يرجى الرد ب-'unsubscribe' لايقاف الخدمة. Send 'english' to change language";
+            return $user->sendMessageFromBot($user->language_preferred == "ar" ? $msgArabic : $msgEnglish);
         }
 
         // Check if user wants to change language

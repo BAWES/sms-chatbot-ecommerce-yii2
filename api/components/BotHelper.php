@@ -45,8 +45,7 @@ class BotHelper
             "yyes",
             "yep",
             "ofcourse",
-            "duh",
-            "why not"
+            "نعم"
         ]);
     }
 
@@ -57,6 +56,7 @@ class BotHelper
     {
         return $this->checkStringForWords($string, [
             "no",
+            "لا"
         ]);
     }
 
