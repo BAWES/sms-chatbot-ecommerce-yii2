@@ -165,8 +165,10 @@ class SmsController extends Controller
         }
 
 
-        // TODO: Send an offer here, if not sent one already.
-
+        // TODO #1: Send an offer to buy something, asking user to respond with quantity (number)
+        // TODO #2: Check do calculation of number * price. Send total quote along with payment link [MyFatoorah?]
+        // TODO #3: Store payment status / send receipts / etc. [After showing demo maybe?]
+        
         if(Yii::$app->botHelper->assertApproval($message)){
             return $user->sendMessageFromBot("Aww. I think I like you too.");
         }else if(Yii::$app->botHelper->assertRejection($message)){
