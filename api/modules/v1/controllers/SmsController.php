@@ -175,7 +175,7 @@ class SmsController extends Controller
         if(is_numeric($message)){
             // Check if sent message is or has a number, then parse and send message based on quantity sent.
             // Send total quote along with TODO payment link [MyFatoorah?]
-            
+
             $quantityRequested = (int) $message;
             if($quantityRequested == 0){
                 return $user->sendMessageFromBot("Guess you don't want any hugs.");
@@ -183,7 +183,66 @@ class SmsController extends Controller
 
             $totalPrice = $productPrice * $quantityRequested;
 
-            return $user->sendMessageFromBot("That will be ". number_format($totalPrice, 3) . " KD for $quantityRequested hugs. Pay via [paylinkhere].");
+
+            /**
+             * Get Payment Link
+             */
+             // Redirect to payment gateway
+             $response = Yii::$app->tapPayments->createCharge(
+                 "$quantityRequested Hugs from Khalid Bot", // Description
+                 "Hugs", //Statement Desc.
+                 rand(1, 9999999), // Reference
+                 $totalPrice,
+                 "You",
+                 "test@test.com",
+                 "99999999",
+                 \yii\helpers\Url::to(['payment/callback'], true),
+                 \api\components\TapPayments::GATEWAY_KNET
+             );
+
+             $responseContent = json_decode($response->content);
+
+             // Validate that theres no error from TAP gateway
+             if(isset($responseContent->errors)) {
+                 $errorMessage = "Error: ".$responseContent->errors[0]->code. " - ". $responseContent->errors[0]->description;
+                 \Yii::error($errorMessage, __METHOD__); // Log error faced by user
+                 return $errorMessage;
+             }
+
+             $chargeId = $responseContent->id;
+             $redirectUrl = $responseContent->transaction->url;
+
+             // Bitly khalid@pogi.io acct Url Shorten: Password Kk5397359!
+             // Authorization: Bearer {token}
+             $apiKey = "836836ac9cef2b83027accead53db574085e3a40";
+
+            $apiv4 = 'https://api-ssl.bitly.com/v4/bitlinks';
+
+            $data = array(
+                'long_url' => $redirectUrl
+            );
+            $payload = json_encode($data);
+
+            $header = array(
+                'Authorization: Bearer ' . $apiKey,
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($payload)
+            );
+
+            $ch = curl_init($apiv4);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            $result = json_decode(curl_exec($ch));
+
+            if(isset($result->link)){
+                $redirectUrl = $result->link;
+            }
+
+             // $payment->payment_gateway_transaction_id = $chargeId;
+
+            return $user->sendMessageFromBot("That will be ". number_format($totalPrice, 3) . " KD for $quantityRequested hugs. Pay via $redirectUrl");
         }else{
             // #1: Send an offer to buy something, asking user to respond with quantity (number)
             return $user->sendMessageFromBot("I'm giving out virtual hugs for ". number_format($productPrice, 3) ." KD each. Respond with the number of hugs you'd like.");

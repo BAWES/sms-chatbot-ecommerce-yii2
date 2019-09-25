@@ -33,6 +33,9 @@ return [
         'botHelper' => [ // Component for bot helper functions
             'class' => 'api\components\BotHelper',
         ],
+        'tapPayments' => [
+            'class' => 'api\components\TapPayments',
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
