@@ -71,7 +71,9 @@ class SmsController extends Controller
 
         // Check if phone exists, otherwise create account for him.
         $user = User::find()->where(['phone' => $phone])->one();
+        $isNewUser = false;
         if(!$user){
+            $isNewUser = true;
             $user = new User;
             $user->phone = $phone;
             $user->auth_key = "temp";
@@ -95,29 +97,52 @@ class SmsController extends Controller
          * Start Processing Response from Bot
          */
          // Convert Str to lowercase before testing for values
-         $message = strtolower($sms->body);
+        $message = strtolower($sms->body);
 
         // If User is NEW (first time) ->
         // Send welcome message in detected lang
         // + Give Instructions to Change Language
-        // Send new welcome message whenever lang changed?
+
+        if($isNewUser){
+            $msgEnglish = "Welcome to eCommerce bot. Respond with 'arabic' to change language.";
+            $msgArabic = "";
+            return $user->sendMessageFromBot($msgEnglish);
+        }
+
+        // Check if user wants to change language
+        if(Yii::$app->botHelper->checkStringForWords($message, ["arabic", "عربي", "arab"])){
+            // Change lang to arabic and response (Language has been changed to Arabic)
+            if($user->language_preferred != "ar"){
+                $user->language_preferred = "ar";
+                $user->save(false);
+                return $user->sendMessageFromBot("من إليوم و رايح بكلمك باللغة العربية");
+            }
+            return $user->sendMessageFromBot("أصلاً من زمان قاعد أكلمك باللغة العربية");
+        }
+        if(Yii::$app->botHelper->checkStringForWords($message, ["english"])){
+            // Change lang to English and response (Language has been changed to English)
+            if($user->language_preferred != "en"){
+                $user->language_preferred = "en";
+                $user->save(false);
+                return $user->sendMessageFromBot("I'll be messaging you in English from now on.");
+            }
+            return $user->sendMessageFromBot("I'm already messaging you in English");
+        }
+
 
 
         if(Yii::$app->botHelper->assertApproval($message)){
-            $user->sendMessageFromBot("Aww. I think I like you too.");
+            return $user->sendMessageFromBot("Aww. I think I like you too.");
         }else if(Yii::$app->botHelper->assertRejection($message)){
-            $user->sendMessageFromBot("That's alright. This bot will find love elsewhere.");
+            return $user->sendMessageFromBot("That's alright. This bot will find love elsewhere.");
         }else{
-            $user->sendMessageFromBot("Hello, this is your friendly bot responding. Do you love me? Respond with the word 'yes' or 'no'.");
+            return $user->sendMessageFromBot("Hello, this is your friendly bot responding. Do you love me? Respond with the word 'yes' or 'no'.");
         }
 
         /**
          * End of response processing
          */
-
-        return [
-            "operation" => "Message Stored"
-        ];
+        return "Done processing message received. No sms response has been sent.";
     }
 
 

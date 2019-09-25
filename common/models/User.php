@@ -143,6 +143,8 @@ class User extends ActiveRecord implements IdentityInterface
         $sms->sender = Sms::SENDER_BOT;
         $sms->body = $message;
         $sms->save();
+
+        return "Sending to ".$this->phone.": ".$message;
     }
 
     /**
