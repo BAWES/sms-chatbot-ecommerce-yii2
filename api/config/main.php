@@ -30,6 +30,9 @@ return [
             'enableSession' => false,
             'loginUrl' => null
         ],
+        'botHelper' => [ // Component for bot helper functions
+            'class' => 'api\components\BotHelper',
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

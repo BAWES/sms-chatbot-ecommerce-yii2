@@ -94,14 +94,18 @@ class SmsController extends Controller
         /**
          * Start Processing Response from Bot
          */
+         // Convert Str to lowercase before testing for values
+         $message = strtolower($sms->body);
 
-        // If User is NEW (first time) -> Detect received message language + Send welcome message in detected lang + Give Instructions to Change Language
+        // If User is NEW (first time) ->
+        // Send welcome message in detected lang
+        // + Give Instructions to Change Language
+        // Send new welcome message whenever lang changed?
 
-         // TODO: Check that response CONTAINS string rather than exact match
 
-        if(strtolower($sms->body) == 'yes'){
+        if(Yii::$app->botHelper->checkStringForWords($message, ["yes"])){
             $user->sendMessageFromBot("Aww. I think I like you too.");
-        }else if(strtolower($sms->body) == 'no'){
+        }else if(Yii::$app->botHelper->checkStringForWords($message, ["no"])){
             $user->sendMessageFromBot("That's alright. This bot will find love elsewhere.");
         }else{
             $user->sendMessageFromBot("Hello, this is your friendly bot responding. Do you love me? Respond with the word 'yes' or 'no'.");
