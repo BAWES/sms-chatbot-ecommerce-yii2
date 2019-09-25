@@ -105,7 +105,9 @@ class SmsController extends Controller
         if($isNewUser){
             $msgEnglish = "This is Khalid's sales bot. Respond with 'unsubscribe' to stop receiving messages. ارسل 'عربي' لتغير اللغة ";
             $msgArabic = "أهلاً بك. أنا روبوت مبيعات صناعة خالد المطوع. يرجى الرد ب-'unsubscribe' لايقاف الخدمة. Send 'english' to change language";
-            return $user->sendMessageFromBot($user->language_preferred == "ar" ? $msgArabic : $msgEnglish);
+
+            // Not returning here, so it will continue processing a secondary message after welcome message.
+            $user->sendMessageFromBot($user->language_preferred == "ar" ? $msgArabic : $msgEnglish);
         }
 
         // Check if user wants to "unsubscribe"
@@ -163,6 +165,7 @@ class SmsController extends Controller
         }
 
 
+        // TODO: Send an offer here, if not sent one already.
 
         if(Yii::$app->botHelper->assertApproval($message)){
             return $user->sendMessageFromBot("Aww. I think I like you too.");
