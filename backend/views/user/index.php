@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'phone',
-            'name',
+            // 'name',
             // 'email:email',
             // 'auth_key',
             // 'status',
@@ -37,7 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
             //         'value' => $model->statusText,
             // ],
             //'created_at',
-            'updated_at:datetime',
+            'last_sms_sent_at:datetime',
+            'last_sms_received_at:datetime',
+            // 'updated_at:datetime',
 
             ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],
         ],

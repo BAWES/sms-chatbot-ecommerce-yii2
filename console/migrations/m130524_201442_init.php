@@ -37,6 +37,8 @@ class m130524_201442_init extends Migration
 
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'language_preferred' => $this->string()->notNull()->defaultValue("en"),
+            'last_sms_sent_at' => $this->dateTime(),
+            'last_sms_received_at' => $this->dateTime(),
             'created_at' => $this->dateTime()->notNull(),
             'updated_at' => $this->dateTime()->notNull(),
         ], $tableOptions);

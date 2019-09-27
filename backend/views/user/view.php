@@ -36,6 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'statusText',
             'language_preferred',
             // 'status',
+            'last_sms_sent_at:datetime',
+            'last_sms_received_at:datetime',
             'created_at:datetime',
             'updated_at:datetime',
         ],

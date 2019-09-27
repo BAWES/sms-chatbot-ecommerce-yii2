@@ -15,6 +15,8 @@ use yii\db\Expression;
  * @property int $sender
  * @property string $body
  * @property int $status
+ * @property string $last_sms_sent_at
+ * @property string $last_sms_received_at
  * @property string $created_at
  * @property string $updated_at
  *
@@ -88,9 +90,30 @@ class Sms extends \yii\db\ActiveRecord
             'sender' => 'Sender',
             'body' => 'Body',
             'status' => 'Status',
+            'last_sms_sent_at' => 'Last SMS Sent',
+            'last_sms_received_at' => 'Last SMS Received',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    /**
+     * After Save
+     */
+    public function afterSave($insert, $changedAttributes) {
+        parent::afterSave($insert, $changedAttributes);
+
+        // IF SENDER IS BOT, UPDATE LAST SENT
+        if($this->sender == Sms::SENDER_BOT){
+            $this->user->last_sms_sent_at = new Expression('NOW()');
+        }
+
+        // IF SENDER IS USER, UPDATE LAST RECEIVED
+        if($this->sender == Sms::SENDER_USER){
+            $this->user->last_sms_received_at = new Expression('NOW()');
+        }
+
+        $this->user->save(false);
     }
 
     /**
