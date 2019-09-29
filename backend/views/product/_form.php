@@ -18,7 +18,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'marketing_text')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList([
+        \common\models\Product::STATUS_INACTIVE => 'Inactive',
+        \common\models\Product::STATUS_ACTIVE => 'Active'
+    ],
+    ['id'=>'statusInput', 'prompt' => 'Select status']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

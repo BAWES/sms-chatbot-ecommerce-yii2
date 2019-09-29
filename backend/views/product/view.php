@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
 
-$this->title = $model->uuid;
+$this->title = $model->name_en;
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -29,11 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'uuid',
+            // 'uuid',
             'name_en',
             'name_ar',
             'marketing_text:ntext',
-            'status',
+            // 'status',
+            [
+                'label' => 'Status',
+                'format' => 'raw',
+                'value' => $model->status == \common\models\Product::STATUS_INACTIVE? "Inactive" : "Active",
+            ],
             'created_at',
             'updated_at',
         ],

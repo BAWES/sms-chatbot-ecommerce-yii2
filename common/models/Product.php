@@ -20,6 +20,9 @@ use yii\db\Expression;
  */
 class Product extends \yii\db\ActiveRecord
 {
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+
     /**
      * {@inheritdoc}
      */
@@ -36,7 +39,10 @@ class Product extends \yii\db\ActiveRecord
         return [
             [['name_en', 'name_ar'], 'required'],
             [['marketing_text'], 'string'],
-            [['status'], 'integer'],
+
+            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_INACTIVE, self::STATUS_ACTIVE]],
+
             [['name_en', 'name_ar'], 'string', 'max' => 255],
         ];
     }
