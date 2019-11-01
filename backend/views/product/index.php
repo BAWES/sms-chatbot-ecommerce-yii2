@@ -23,13 +23,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'uuid',
+            // 'uuid',
             'name_en',
-            'name_ar',
-            'marketing_text:ntext',
+            // 'name_ar',
+            'price_per_unit:currency',
+            'delivery_fee:currency',
+            // 'marketing_text_en:ntext',
+            // 'marketing_text_ar:ntext',
             'status',
-            //'created_at',
-            //'updated_at',
+            //'created_at:datetime',
+            // 'updated_at:datetime',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

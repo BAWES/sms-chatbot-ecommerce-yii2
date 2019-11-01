@@ -32,15 +32,18 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'uuid',
             'name_en',
             'name_ar',
-            'marketing_text:ntext',
+            'marketing_text_en:ntext',
+            'marketing_text_ar:ntext',
+            'price_per_unit:currency',
+            'delivery_fee:currency',
             // 'status',
             [
                 'label' => 'Status',
                 'format' => 'raw',
                 'value' => $model->status == \common\models\Product::STATUS_INACTIVE? "Inactive" : "Active",
             ],
-            'created_at',
-            'updated_at',
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 

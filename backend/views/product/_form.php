@@ -16,7 +16,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name_ar')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'marketing_text')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'marketing_text_en')->textarea(['rows' => 6]) ?>
+
+    <?= $form->field($model, 'marketing_text_ar')->textarea(['rows' => 6]) ?>
+
+    <?= $form->field($model, 'price_per_unit')->input('text', [['placeholder' => '2.500']]) ?>
+
+    <?= $form->field($model, 'delivery_fee')->input('text', [['placeholder' => '1']]) ?>
 
     <?= $form->field($model, 'status')->dropDownList([
         \common\models\Product::STATUS_INACTIVE => 'Inactive',
