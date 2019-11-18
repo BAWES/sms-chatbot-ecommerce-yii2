@@ -103,11 +103,12 @@ class SmsController extends Controller
         // If User is NEW (first time)
         // Send welcome message + Give Instructions to Change Language / Unsubscribe
         if($isNewUser){
-            $msgEnglish = "This is Khalid's sales bot. Respond with 'unsubscribe' to stop receiving messages. ارسل 'عربي' لتغير اللغة ";
-            $msgArabic = "أهلاً بك. أنا روبوت مبيعات صناعة خالد المطوع. يرجى الرد ب-'unsubscribe' لايقاف الخدمة. Send 'english' to change language";
+            $msgEnglish = "You have subscribed to receive seafood offers. Respond with 'unsubscribe' to stop receiving messages. ارسل 'عربي' لتغير اللغة ";
+            $msgArabic = "لقد سجلت في خدمة عروض الأكلات البحرية. الرد ب-'unsubscribe' لايقاف الخدمة. Send 'english' to change language";
 
             // Not returning here, so it will continue processing a secondary message after welcome message.
             $user->sendMessageFromBot($user->language_preferred == "ar" ? $msgArabic : $msgEnglish);
+            return "Sending welcome message"; //exit after sending this message. User is required to send another message for further processing
         }
 
         // Check if user wants to "unsubscribe"
