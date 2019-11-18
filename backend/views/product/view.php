@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'marketing_text_ar:ntext',
             'price_per_unit:currency',
             'delivery_fee:currency',
+            'quantity_available',
             // 'status',
             [
                 'label' => 'Status',

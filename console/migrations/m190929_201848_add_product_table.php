@@ -30,6 +30,9 @@ class m190929_201848_add_product_table extends Migration
             // Price per unit
             "price_per_unit" => $this->double(10,3)->notNull(),
 
+            // Quantity Available
+            'quantity_available' => $this->integer()->notNull(),
+
             // Delivery Fee
             "delivery_fee" => $this->double(10,3)->notNull(),
 

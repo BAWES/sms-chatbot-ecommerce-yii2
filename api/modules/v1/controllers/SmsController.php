@@ -166,12 +166,6 @@ class SmsController extends Controller
         }
 
 
-
-
-        // TODO: Translate the following messages.
-        // TODO #3: Store payment status / send receipts / etc. [After showing demo maybe?]
-        // TODO: Implement Arabic Number Parsing
-
         $productPrice = 0.5;
 
         if(is_numeric($message)){

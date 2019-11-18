@@ -22,6 +22,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'price_per_unit')->input('text', [['placeholder' => '2.500']]) ?>
 
+    <?= $form->field($model, 'quantity_available')->input('text', [['placeholder' => '1']]) ?>
+
     <?= $form->field($model, 'delivery_fee')->input('text', [['placeholder' => '1']]) ?>
 
     <?= $form->field($model, 'status')->dropDownList([

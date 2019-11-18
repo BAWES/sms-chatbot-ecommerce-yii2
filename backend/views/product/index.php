@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'delivery_fee:currency',
             // 'marketing_text_en:ntext',
             // 'marketing_text_ar:ntext',
+            'quantity_available',
             'status',
             //'created_at:datetime',
             // 'updated_at:datetime',

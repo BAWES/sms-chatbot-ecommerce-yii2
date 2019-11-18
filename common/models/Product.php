@@ -16,6 +16,7 @@ use yii\db\Expression;
  * @property string $marketing_text_en
  * @property string $marketing_text_ar
  * @property string $price_per_unit
+ * @property int $quantity_available
  * @property string $delivery_fee
  * @property int $status
  * @property string $created_at
@@ -43,7 +44,7 @@ class Product extends \yii\db\ActiveRecord
             [['name_en', 'name_ar', 'marketing_text_en', 'marketing_text_ar', 'price_per_unit', 'delivery_fee'], 'required'],
             [['marketing_text_en', 'marketing_text_ar'], 'string'],
 
-            [['price_per_unit', 'delivery_fee'], 'number'],
+            [['price_per_unit', 'delivery_fee', 'quantity_available'], 'number'],
 
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_INACTIVE, self::STATUS_ACTIVE]],
@@ -91,6 +92,7 @@ class Product extends \yii\db\ActiveRecord
             'marketing_text_ar' => 'Marketing Text Ar',
             'price_per_unit' => 'Price per unit',
             'delivery_fee' => 'Delivery Fee',
+            'quantity_available' => 'Quantity Available',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
