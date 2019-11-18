@@ -40,6 +40,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'r/<payId>' => 'shortener/redirect',
             ],
         ],
     ],
