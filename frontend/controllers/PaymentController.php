@@ -5,6 +5,7 @@ use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use common\components\TapPayments;
 
 /**
  * Payment controller
@@ -65,21 +66,20 @@ class PaymentController extends Controller
     {
         // Create new payment record
         $payment = new \common\models\Payment;
-        $payment->payment_mode = $gateway;
-        $payment->investor_id = Yii::$app->user->identity->investor_id;
-        $payment->project_id = $project->project_id;
+        $payment->payment_mode = TapPayments::GATEWAY_KNET;
+        $payment->user_phone = Yii::$app->user->identity->investor_id;
+        $payment->product_uuid = $project->project_id;
         $payment->payment_amount_charged = 100;
         $payment->payment_current_status = "Redirected to payment gateway";
         $payment->save();
 
-        Yii::info("[Payment Attempt Started] ".Yii::$app->user->identity->investor_name.' start attempting making a payment '.Yii::$app->formatter->asCurrency($amountToInvest, '',[\NumberFormatter::MAX_SIGNIFICANT_DIGITS=>10]) , __METHOD__);
 
         // Redirect to payment gateway
         $response = Yii::$app->tapPayments->createCharge(
-            "Equity in ".$project->project_name_en, // Description
-            "TheCapital", //Statement Desc.
-            $payment->payment_uuid, // Reference
-            $amountToInvest,
+            "Purchase of product name", // Description
+            "SmsBot", //Statement Desc.
+            $payment->uuid, // Reference
+            $payment->payment_amount_charged,
             "Buyer Khalid",
             "demo@khalid.com",
             "99811042",
