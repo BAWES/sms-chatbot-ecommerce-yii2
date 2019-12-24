@@ -1,6 +1,6 @@
 <?php
 
-namespace api\components;
+namespace common\components;
 
 use yii\base\Component;
 use yii\helpers\ArrayHelper;

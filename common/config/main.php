@@ -14,5 +14,8 @@ return [
             'currencyCode' => 'KWD',
             'defaultTimeZone' => 'Asia/Kuwait',
         ],
+        'tapPayments' => [
+            'class' => 'common\components\TapPayments',
+        ],
     ],
 ];
