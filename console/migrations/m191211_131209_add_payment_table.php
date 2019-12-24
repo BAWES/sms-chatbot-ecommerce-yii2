@@ -12,6 +12,12 @@ class m191211_131209_add_payment_table extends Migration
      */
     public function safeUp()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        }
+        
         Yii::$app->db->createCommand('SET foreign_key_checks = 0')->execute();
 
         // Create table that will store payment records
@@ -46,7 +52,7 @@ class m191211_131209_add_payment_table extends Migration
 
             'received_callback' => $this->boolean()->notNull()->defaultValue(0) // Callback from payment gateway received?
 
-        ]);
+        ], $tableOptions);
         $this->addPrimaryKey('PK', 'payment', 'uuid');
 
         // creates index for column `product_id`in table `payment`
