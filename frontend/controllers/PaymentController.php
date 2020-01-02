@@ -5,6 +5,7 @@ use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use yii\helpers\Url;
 use common\components\TapPayments;
 
 /**
@@ -66,11 +67,14 @@ class PaymentController extends Controller
     {
         // Create new payment record
         $payment = new \common\models\Payment;
-        $payment->payment_mode = TapPayments::GATEWAY_KNET;
-        $payment->user_phone = Yii::$app->user->identity->investor_id;
-        $payment->product_uuid = $project->project_id;
-        $payment->payment_amount_charged = 100;
-        $payment->payment_current_status = "Redirected to payment gateway";
+        $payment->gateway_mode = TapPayments::GATEWAY_KNET;
+
+        $payment->user_phone = "+96599811042"; //TODO use actual user phone
+        $payment->product_uuid = "857435c2-2d63-11ea-9e34-dcf8456f5f8d"; // TODO use actual product uuid
+        $payment->quantity_purchased = 5;//TODO
+        $payment->amount_charged = 100;//TODO
+
+        $payment->current_status = "Redirected to payment gateway";
         $payment->save();
 
 
@@ -79,12 +83,12 @@ class PaymentController extends Controller
             "Purchase of product name", // Description
             "SmsBot", //Statement Desc.
             $payment->uuid, // Reference
-            $payment->payment_amount_charged,
+            $payment->amount_charged,
             "Buyer Khalid",
             "demo@khalid.com",
             "99811042",
             Url::to(['payment/callback'], true),
-            $gateway
+            $payment->gateway_mode
         );
 
         $responseContent = json_decode($response->content);
@@ -103,7 +107,7 @@ class PaymentController extends Controller
         $chargeId = $responseContent->id;
         $redirectUrl = $responseContent->transaction->url;
 
-        $payment->payment_gateway_transaction_id = $chargeId;
+        $payment->gateway_transaction_id = $chargeId;
         $payment->save(false);
 
         return $this->redirect($redirectUrl);

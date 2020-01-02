@@ -17,12 +17,12 @@ class m191211_131209_add_payment_table extends Migration
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
-        
+
         Yii::$app->db->createCommand('SET foreign_key_checks = 0')->execute();
 
         // Create table that will store payment records
         $this->createTable('payment', [
-            "uuid" => $this->char(36)->notNull(), // primaryKey
+            "uuid" => $this->char(40)->notNull(), // primaryKey
 
             "user_phone" => $this->string()->notNull(), // Which user made the payment?
             "product_uuid" => $this->char(40)->notNull(), // Which product is being purchased?
