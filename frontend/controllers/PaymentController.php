@@ -70,7 +70,7 @@ class PaymentController extends Controller
         $payment->gateway_mode = TapPayments::GATEWAY_KNET;
 
         $payment->user_phone = "+96599811042"; //TODO use actual user phone
-        $payment->product_uuid = "857435c2-2d63-11ea-9e34-dcf8456f5f8d"; // TODO use actual product uuid
+        $payment->product_uuid = "f3c4fcce-2e57-11ea-bb80-0434fa477574"; // TODO use actual product uuid
         $payment->quantity_purchased = 5;//TODO
         $payment->amount_charged = 100;//TODO
 

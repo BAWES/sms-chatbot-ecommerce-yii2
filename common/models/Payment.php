@@ -74,8 +74,10 @@ class Payment extends \yii\db\ActiveRecord
                     \yii\db\ActiveRecord::EVENT_BEFORE_INSERT => 'uuid',
                 ],
                 'value' => function() {
-                    if(!$this->uuid)
-                        $this->uuid = 'pay_'.Yii::$app->db->createCommand('SELECT uuid()')->queryScalar();
+                    if(!$this->uuid){
+                        // Get a unique uuid from payment table
+                        $this->uuid = Payment::getUniquePaymentUuid();
+                    }
 
                     return $this->uuid;
                 }
@@ -87,6 +89,24 @@ class Payment extends \yii\db\ActiveRecord
 		        'value' => new Expression('NOW()'),
 	        ]
         ];
+    }
+
+    /**
+     * Get a unique alphanumeric uuid to be used for a payment
+     * This uuid will be used for url shortener to redirect to payment
+     * @return string uuid
+     */
+    private static function getUniquePaymentUuid($length = 6){
+        $uuid = \ShortCode\Random::get($length);
+
+        $isNotUnique = static::find()->where(['uuid' => $uuid])->exists();
+
+        // If not unique, try again recursively
+        if($isNotUnique){
+            return static::getUniquePaymentUuid($length);
+        }
+
+        return $uuid;
     }
 
     /**
