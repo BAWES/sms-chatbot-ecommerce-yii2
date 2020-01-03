@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'udf3',
             'udf4',
             'udf5',
+            'payment_link',
             'created_at',
             'updated_at',
             'received_callback',

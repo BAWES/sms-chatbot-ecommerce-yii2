@@ -46,6 +46,9 @@ class m191211_131209_add_payment_table extends Migration
             "udf4" => $this->string(),
             "udf5" => $this->string(),
 
+            // Generated Payment Link
+            "payment_link" => $this->string(),
+
             //datetime
             'created_at' => $this->dateTime(),
             'updated_at' => $this->dateTime(),

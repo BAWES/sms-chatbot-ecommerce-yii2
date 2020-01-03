@@ -26,6 +26,7 @@ use yii\db\Expression;
  * @property string $udf3
  * @property string $udf4
  * @property string $udf5
+ * @property string $payment_link
  * @property string $created_at
  * @property string $updated_at
  * @property int $received_callback
@@ -51,7 +52,7 @@ class Payment extends \yii\db\ActiveRecord
         return [
             [['uuid', 'user_phone', 'product_uuid', 'quantity_purchased', 'amount_charged'], 'required'],
             [['quantity_purchased', 'received_callback'], 'integer'],
-            [['current_status'], 'string'],
+            [['current_status', 'payment_link'], 'string'],
             [['amount_charged', 'net_amount', 'gateway_fee'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
             [['uuid'], 'string', 'max' => 36],
@@ -131,6 +132,7 @@ class Payment extends \yii\db\ActiveRecord
             'udf3' => 'Udf3',
             'udf4' => 'Udf4',
             'udf5' => 'Udf5',
+            'payment_link' => 'Payment Link',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'received_callback' => 'Received Callback',

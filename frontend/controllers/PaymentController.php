@@ -74,7 +74,7 @@ class PaymentController extends Controller
         $payment->quantity_purchased = 5;//TODO
         $payment->amount_charged = 100;//TODO
 
-        $payment->current_status = "Redirected to payment gateway";
+        $payment->current_status = "Payment link generated";
         $payment->save();
 
 
@@ -108,6 +108,7 @@ class PaymentController extends Controller
         $redirectUrl = $responseContent->transaction->url;
 
         $payment->gateway_transaction_id = $chargeId;
+        $payment->payment_link = $redirectUrl;
         $payment->save(false);
 
         return $this->redirect($redirectUrl);
